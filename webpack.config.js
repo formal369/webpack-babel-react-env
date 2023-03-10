@@ -1,21 +1,22 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  mode: "development",  // production
+  mode: "development", // production
   entry: path.resolve(__dirname, "./src/index.js"),
   module: {
     rules: [
       {
-        test: /\.js|jsx|ts|tsx$/,
-        exclude: /node_modules/,  // 昔のブラウザでも対応させる
+        test: /\.(js|jsx|ts|tsx)$/,
+        exclude: /node_modules/, // 昔のブラウザでも対応させる
         use: [
           {
             loader: "babel-loader",
-          }
-        ]
-      }
+          },
+        ],
+      },
     ],
-  }
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
@@ -24,10 +25,15 @@ module.exports = {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     // import somefunction from "app/src/sample.js"
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+    }),
+  ],
   devServer: {
     static: {
-      directory: path.resolve(__dirname, "dist"),
+      directory: path.join(__dirname, "dist"),
     },
     port: 3000,
-  }
+  },
 };
